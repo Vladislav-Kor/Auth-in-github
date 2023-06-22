@@ -20,11 +20,26 @@ class SiteController extends Controller
 
     public function onAuthSuccess($client)
     {
-        $userData = $client->getUserAttributes();
+        $attributes = $client->getUserAttributes();
         // Обработка полученных данных
+
+        // Поиск пользователя в базе данных с помощью полученных данных (например, email)
+        $user = User::find()->where(['email' => $email])->one();
+
+        if ($user) {
+            // Если пользователь уже зарегистрирован, производится авторизация
+            Yii::$app->user->login($user);
+            $this->redirect(['site/index']);
+        } else {
+            // Если пользователя еще нет в базе данных, производится регистрация
+            $password = Yii::$app->security->generateRandomString(12);
+            $user = new User();
+            $user->email = $email;
+            $user->password = Yii::$app->security->generatePasswordHash($password);
+            $user->save();
+
+            Yii::$app->user->login($user);
+            $this->redirect(['site/index']);
+        }
     }
 }
-<?= yii\authclient\widgets\AuthChoice::widget([
-    'baseAuthUrl' => ['site/auth'],
-    'popupMode' => true,
-]) ?>
