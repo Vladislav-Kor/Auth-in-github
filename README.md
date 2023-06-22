@@ -1,8 +1,10 @@
 # Auth-in-github
 
-# Зарегистрировать приложение в Github
+ Зарегистрировать приложение в Github
 
-# Зайти в свой аккаунт на Github
+ Зайти в свой аккаунт на Github
+
+ 
 В правом верхнем углу выбрать “Settings”
 Перейти на страницу “Developer settings” -> “OAuth Apps”
 Нажать на кнопку “New OAuth App”
